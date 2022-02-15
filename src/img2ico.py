@@ -64,19 +64,18 @@ def get_round_mask(img: Image.Image, r: int = 100) -> Image.Image:
     """
     mask = Image.new("L", img.size, 0)
     draw = ImageDraw.Draw(mask)
-    rx = r
-    ry = r
+
     filled_color = "#ffffff"
     draw.rectangle(
-        (0, ry)+(mask.size[0]-1, mask.size[1]-1-ry), fill=filled_color)
+        (0, r) + (mask.size[0] - 1, mask.size[1] - 1 - r), fill=filled_color)
     draw.rectangle(
-        (rx, 0)+(mask.size[0]-1-rx, mask.size[1]-1), fill=filled_color)
-    draw.pieslice(((0, 0), (rx*2, ry*2)), 180, 270, fill=filled_color)
-    draw.pieslice(((0, mask.size[1]-1-ry*2), (rx*2, mask.size[1]-1)), 90, 180, fill=filled_color)
-    draw.pieslice(((mask.size[0]-1-rx*2, mask.size[1]-1-ry*2),
-                  (mask.size[0]-1, mask.size[1]-1)), 0, 180, fill=filled_color)
-    draw.pieslice(((mask.size[0]-1-rx*2, 0),
-                  (mask.size[0]-1, ry*2)), 270, 360, fill=filled_color)
+        (r, 0) + (mask.size[0] - 1 - r, mask.size[1] - 1), fill=filled_color)
+    draw.pieslice(((0, 0), (r * 2, r * 2)), 180, 270, fill=filled_color)
+    draw.pieslice(((0, mask.size[1] - 1 - r * 2), (r * 2, mask.size[1] - 1)), 90, 180, fill=filled_color)
+    draw.pieslice(((mask.size[0] - 1 - r * 2, mask.size[1] - 1 - r * 2),
+                  (mask.size[0] - 1, mask.size[1] - 1)), 0, 180, fill=filled_color)
+    draw.pieslice(((mask.size[0] - 1 - r * 2, 0),
+                  (mask.size[0] - 1, r * 2)), 270, 360, fill=filled_color)
     return mask
 
 
@@ -100,16 +99,35 @@ def get_image_trimmed_round_rectangle(img: Image.Image, radius: int = 100, use_f
     return result
 
 
-def preprocess(image_input: Path, round: bool, round_rate: int = 5) -> Image.Image:
+def preprocess(image_input: Path, do_round: bool, round_rate: int = 5) -> Image.Image:
+    """前処理で中心を正方形にくり抜く。
+
+    Args:
+        image_input (Path): 入力画像
+        do_round (bool): 角を丸めるかどうか
+        round_rate (int, optional): どの程度の大きさの角丸にするか. Defaults to 5.
+
+    Returns:
+        Image.Image: 正方形画像
+    """
     img = Image.open(image_input)
     img = crop_max_square(img)
 
-    if round:
+    if do_round:
         r = img.size[0] // round_rate
         img = get_image_trimmed_round_rectangle(img, radius=r)
 
     return img
 
-def convert_img2ico(img_input: Path, img_output: Path, round: bool, round_rate: int = 5):
-    img = preprocess(img_input, round, round_rate)
+
+def convert_img2ico(img_input: Path, img_output: Path, do_round: bool, round_rate: int = 5):
+    """画像をicoに変換する
+
+    Args:
+        img_input (Path):入力画像
+        img_output (Path): 出力先
+        do_round (bool): 角を丸めるかどうか
+        round_rate (int, optional): どの程度の大きさの角丸にするか. Defaults to 5.
+    """
+    img = preprocess(img_input, do_round, round_rate)
     img.save(img_output)
