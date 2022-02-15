@@ -10,7 +10,7 @@ pdf2image = "*"
 autopep8 = "*"
 
 [scripts]
-build = "python -u builder.py ; python -m pip freeze > requirements.txt"
+build = "python -u builder.py ; python -m pip freeze | Out-File -Encoding UTF8 requirements.txt"
 
 [requires]
 python_version = "3.9"
