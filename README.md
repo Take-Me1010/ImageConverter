@@ -1,4 +1,4 @@
-# imgconv
+# ImageConverter
 
 画像を変換するコマンドラインツール
 
