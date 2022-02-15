@@ -49,25 +49,8 @@ def merge_import_statements(import_states: List[str], lib_names: List[str]) -> L
 
 def delete_block_comment(codes: List[str]) -> List[str]:
     """ \"\"\"で定義されるコメント行を消去する """
-    result_codes = []
-
-    in_block_comment = False
-    for row in codes:
-        startswith_comment = row.lstrip().startswith("\"\"\"")
-        if startswith_comment and not in_block_comment:
-            in_block_comment = True
-            continue
-
-        if not startswith_comment and in_block_comment:
-            continue
-
-        if startswith_comment and in_block_comment:
-            in_block_comment = False
-
-        else:
-            result_codes.append(row)
-
-    return result_codes
+    # TODO 実装
+    return codes
 
 
 def get_codes_with_splitted_import_states(file: Path) -> Tuple[List[str], List[str]]:
@@ -90,7 +73,7 @@ def main():
     src = Path("./src")
 
     main_file = src / "main.py"
-    dist = Path("bin/main.py")
+    dist = Path("dist/main.py")
 
     import_statements: List[str]
     main_code: List[str]
