@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b773cee98d368000d6932751a808224a1574db3625778327d7f0adee8ce1ffc5"
+            "sha256": "e5602245d8c13610b781d5432134552143df1a5c4f6994d26d0adc3c083a5213"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,10 @@
         ]
     },
     "default": {
+        "imgconv": {
+            "editable": true,
+            "path": "."
+        },
         "pdf2image": {
             "hashes": [
                 "sha256:84f79f2b8fad943e36323ea4e937fcb05f26ded0caa0a01181df66049e42fb65",

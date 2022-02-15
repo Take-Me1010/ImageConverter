@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pdf2image = "*"
+imgconv = {editable = true, path = "."}
 
 [dev-packages]
 autopep8 = "*"
