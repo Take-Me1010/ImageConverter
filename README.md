@@ -31,7 +31,7 @@ notepad $profile
 
 ```ps1
 function imgconv() {
-    python -u path/to/imageConverter/bin/main.py $args
+    python -u path/to/imageConverter/dist/main.py $args
 }
 ```
 
