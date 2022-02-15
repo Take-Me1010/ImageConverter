@@ -12,7 +12,11 @@
 
 開発はpipenvで作成した仮想環境で行っています。
 
-## パスを通す
+## 使い方
+
+`pip install https://github.com/Take-Me1010/ImageConverter.git`で多分大丈夫。
+
+`imgconv -h`としてうまくいけばおｋ。わざわざ`pip install`で汚したくない場合は直接動作させるようにエイリアスを設定しよう。
 
 ### Windows (Power Shell)
 
