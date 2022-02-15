@@ -7,10 +7,10 @@ name = "pypi"
 pdf2image = "*"
 
 [dev-packages]
+autopep8 = "*"
 
 [scripts]
 build = "python -u builder.py ; python -m pip freeze > requirements.txt"
-
 
 [requires]
 python_version = "3.9"
