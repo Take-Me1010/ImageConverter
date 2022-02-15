@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pdf2image = "*"
+
+[dev-packages]
+
+[scripts]
+build = "python -u builder.py ; python -m pip freeze > requirements.txt"
+
+
+[requires]
+python_version = "3.9"
