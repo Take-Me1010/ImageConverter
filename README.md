@@ -4,9 +4,20 @@
 
 ## 環境
 
+必須なものは以下。
+
+```
+ImageConverter
+├─dist
+│  └─main.py
+└─poppler
+```
+
 - Python 3.9
-- poppler が必要です。binフォルダを含むpopplerフォルダをbin, srcと同じ階層に置いてください。
+  - 多分3.6とかでも動く。
+- poppler が必要です。popplerフォルダをdistと同じ階層に置いてください。
   - [Windows版](https://github.com/oschwartz10612/poppler-windows)など。
+
 
 `pip install -r requirements.txt`
 
@@ -38,11 +49,20 @@ function imgconv() {
 ## 機能紹介
 
 現在
-- 画像をicoに変換する
+- 画像の拡張子を変換する
 - pdfから画像へ変換する
 を実装しています。
 
-### 画像をicoに変換する
+### 画像を変換する
+
+PDF以外を入力画像に指定した場合です。
+
+- `--crop`オプションを指定すると正方形にトリミングされます。
+- `--round`オプションを指定すると、角丸正方形でトリミングします。
+
+```
+imgconv .\example\hakase4_laugh.png --crop -o .\example\hakase4_laugh.ico
+```
 
 Before <---> After
 
@@ -50,13 +70,9 @@ Before <---> After
 
 (画像: いらすとや)
 
-事前に正方形にトリミングしておくと良いかもしれません。
-
-
-また、出力を各丸四角にすることができます。
 
 ```
-imgconv .\example\single_color.jpg --round -o .\example\single_color.ico
+imgconv .\example\single_color.jpg --crop --round -o .\example\single_color.ico
 ```
 
 Before <---> After
