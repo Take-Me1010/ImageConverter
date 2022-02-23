@@ -11,6 +11,7 @@ class Args(NamedTuple):
 
     """
     inputs: List[str]
+    # TODO: outputの形式検討。
     output: Path
     dpi: int
     crop: bool

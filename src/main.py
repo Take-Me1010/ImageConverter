@@ -237,10 +237,7 @@ def resolve_output_file_path(img_input: Path, out: Path) -> Path:
     Returns:
         Path: 出力画像のパス
     """
-    if out.is_file():
-        return out
-    else:
-        return out / img_input.name
+    return out
 
 
 def main():

@@ -1,9 +1,9 @@
 import pdf2image
 import argparse
-from typing import Any, NamedTuple, Dict, List
+from typing import NamedTuple, List, Any, Dict
 from pathlib import Path
-from PIL import ImageDraw, ImageFilter, UnidentifiedImageError, Image
-from logging import INFO, getLogger
+from logging import getLogger, INFO
+from PIL import ImageFilter, ImageDraw, Image, UnidentifiedImageError
 """
 CLIのパーサー部分を記述したモジュール。
 """
@@ -14,6 +14,7 @@ class Args(NamedTuple):
 
     """
     inputs: List[str]
+    # TODO: outputの形式検討。
     output: Path
     dpi: int
     crop: bool
@@ -177,7 +178,7 @@ class Preprocessor:
         return result
 
 
-def connvert_by_pillow(image: Image.Image, img_output: Path):
+def convert_by_pillow(image: Image.Image, img_output: Path):
     """pillowを用いて画像を変換する
 
     Args:
@@ -252,7 +253,7 @@ def convert(img_input: Path, img_output: Path, preprocessor: Preprocessor, pdf2i
 
     elif input_format in pillow_permit_extensions:
         image = preprocessor.preprocess(img_input)
-        connvert_by_pillow(image, img_output)
+        convert_by_pillow(image, img_output)
 
     else:
         logger.error(f"The extension {input_format} is not permitted now...")
@@ -270,10 +271,7 @@ def resolve_output_file_path(img_input: Path, out: Path) -> Path:
     Returns:
         Path: 出力画像のパス
     """
-    if out.is_file():
-        return out
-    else:
-        return out / img_input.name
+    return out
 
 
 def main():
