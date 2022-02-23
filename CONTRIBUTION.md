@@ -22,6 +22,6 @@ pylintとautopep8でlintingと整形。
 pipenv install
 # 仮想環境で開発して,,,
 pipenv shell
-# 追加できたらbuildコマンドでbin/main.pyに反映します。またrequirementも更新します。
+# 追加できたらbuildコマンドでdist/main.pyに反映します。またrequirementも更新します。
 pipenv run build
 ```
