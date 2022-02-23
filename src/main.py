@@ -144,7 +144,7 @@ class Preprocessor:
         return result
 
 
-def connvert_by_pillow(image: Image.Image, img_output: Path):
+def convert_by_pillow(image: Image.Image, img_output: Path):
     """pillowを用いて画像を変換する
 
     Args:
@@ -219,7 +219,7 @@ def convert(img_input: Path, img_output: Path, preprocessor: Preprocessor, pdf2i
 
     elif input_format in pillow_permit_extensions:
         image = preprocessor.preprocess(img_input)
-        connvert_by_pillow(image, img_output)
+        convert_by_pillow(image, img_output)
 
     else:
         logger.error(f"The extension {input_format} is not permitted now...")
