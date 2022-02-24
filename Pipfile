@@ -12,6 +12,7 @@ autopep8 = "*"
 
 [scripts]
 build = "python -u builder.py ; python -m pip freeze | Out-File -Encoding UTF8 requirements.txt"
+test = "python -m unittest tests.test_imgconv"
 
 [requires]
 python_version = "3.9"
