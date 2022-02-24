@@ -12,7 +12,7 @@ setup(
     packages=["dist"],
     entry_points={
         'console_scripts': [
-            "imgconv=dist.main:main"
+            "imgconv=dist.imgconv.main:main"
         ]
     }
 )
