@@ -1,7 +1,6 @@
 """
 CLI本体を定義する。
 """
-from logging import getLogger, INFO
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -9,10 +8,9 @@ from PIL import Image, ImageDraw, ImageFilter, UnidentifiedImageError
 import pdf2image
 
 from cliparser import parse
+from clilogger import Logger
 
-logger = getLogger("imgconv")
-logger.setLevel(INFO)
-
+logger = Logger("imgconv")
 
 POPPLER_PATH = Path(__file__).parent.parent.absolute() / "poppler/bin"
 
@@ -211,6 +209,7 @@ def convert(img_input: Path, img_output: Path, preprocessor: Preprocessor, pdf2i
         ".ico",
         ".im",
         ".jpeg",
+        ".jpg",
         ".msp",
         ".pcx",
         ".png",
@@ -260,6 +259,7 @@ def get_img_inputs_from_user_inputs(inputs: List[str]):
 
 
 def main():
+    """ エントリーポイント """
     args = parse()
 
     img_inputs = args.inputs
