@@ -70,10 +70,11 @@ def get_codes_with_splitted_import_states(file: Path) -> Tuple[List[str], List[s
 
 
 def main():
+    """ エントリーポイント """
     src = Path("./src")
 
     main_file = src / "main.py"
-    dist = Path("dist/main.py")
+    dist = Path("dist/imgconv/main.py")
 
     import_statements: List[str]
     main_code: List[str]
