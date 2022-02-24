@@ -18,6 +18,10 @@ POPPLER_PATH = Path(__file__).parent.parent.absolute() / "poppler/bin"
 
 
 class Preprocessor:
+    """前処理を行うクラス
+
+    """
+
     def __init__(self, *, do_crop_center: bool = False, do_round: bool = False, round_rate: int = 5) -> None:
         self.do_crop_center = do_crop_center
         self.do_round = do_round

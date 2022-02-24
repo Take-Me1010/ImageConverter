@@ -1,9 +1,9 @@
-import pdf2image
 import argparse
-from typing import NamedTuple, List, Any, Dict
-from pathlib import Path
+import pdf2image
+from PIL import UnidentifiedImageError, ImageFilter, ImageDraw, Image
 from logging import getLogger, INFO
-from PIL import ImageFilter, ImageDraw, Image, UnidentifiedImageError
+from typing import NamedTuple, List, Dict, Any
+from pathlib import Path
 """
 CLIのパーサー部分を記述したモジュール。
 """
@@ -52,6 +52,10 @@ POPPLER_PATH = Path(__file__).parent.parent.absolute() / "poppler/bin"
 
 
 class Preprocessor:
+    """前処理を行うクラス
+
+    """
+
     def __init__(self, *, do_crop_center: bool = False, do_round: bool = False, round_rate: int = 5) -> None:
         self.do_crop_center = do_crop_center
         self.do_round = do_round
