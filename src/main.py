@@ -231,17 +231,32 @@ def convert(img_input: Path, img_output: Path, preprocessor: Preprocessor, pdf2i
     logger.info(f"successfully converted {img_input} into {img_output}")
 
 
-def resolve_output_file_path(img_input: Path, out: Path) -> Path:
+def resolve_output_file_path(img_input: Path, out: str) -> Path:
     """outの形式に応じて、出力先のパスを返す
 
     Args:
         img_input (Path): 入力画像
-        out (Path): 出力先の情報(ファイルorディレクトリ)
+        out (str): 出力先の情報(ファイルorディレクトリ), ${name}などを含む可能性がある。
 
     Returns:
         Path: 出力画像のパス
     """
-    return out
+    out = out.replace("${stem}", img_input.stem)
+    out = out.replace("${dir}", str(img_input.parent))
+
+    img_output = Path(out)
+
+    if img_output.is_dir():
+        raise ValueError("format of the output name is invalid.")
+
+    return img_output
+
+
+def get_img_inputs_from_user_inputs(inputs: List[str]):
+    """ 入力されたファイルを順にイテレーションする """
+    for pattern in inputs:
+        for img_input in Path.cwd().glob(pattern):
+            yield img_input
 
 
 def main():
@@ -253,10 +268,9 @@ def main():
     preprocessor = Preprocessor(do_crop_center=args.crop, do_round=args.round, round_rate=args.round_rate)
     pdf2image_options = {"dpi": args.dpi}
 
-    for pattern in img_inputs:
-        for img_input in Path.cwd().glob(pattern):
-            img_output = resolve_output_file_path(img_input, out)
-            convert(img_input, img_output, preprocessor, pdf2image_options)
+    for img_input in get_img_inputs_from_user_inputs(img_inputs):
+        img_output = resolve_output_file_path(img_input, out)
+        convert(img_input, img_output, preprocessor, pdf2image_options)
 
 
 if __name__ == '__main__':

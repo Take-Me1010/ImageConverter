@@ -1,8 +1,8 @@
 import argparse
 import pdf2image
-from PIL import UnidentifiedImageError, ImageFilter, ImageDraw, Image
-from logging import getLogger, INFO
-from typing import NamedTuple, List, Dict, Any
+from typing import List, NamedTuple, Any, Dict
+from logging import INFO, getLogger
+from PIL import ImageDraw, ImageFilter, UnidentifiedImageError, Image
 from pathlib import Path
 """
 CLIのパーサー部分を記述したモジュール。
@@ -14,30 +14,29 @@ class Args(NamedTuple):
 
     """
     inputs: List[str]
-    # TODO: outputの形式検討。
-    output: Path
+    output: str
     dpi: int
     crop: bool
     round: bool
     round_rate: int
 
 
-def parse() -> Args:
+def parse(*args, **kwargs) -> Args:
     """ コマンドラインをパースした結果を返す """
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-i", "--inputs", required=True, nargs="+", help="pngなどの画像ファイル")
-    parser.add_argument("-o", "--output", type=Path, required=True,
-                        help="出力ファイル/ディレクトリ")
+    parser.add_argument("-o", "--output", required=True,
+                        help="出力ファイル/ディレクトリ. 特殊変数として ${stem}, ${dir}を使って指定できる。")
     parser.add_argument("-dpi", "--dpi", type=int, default=150, help="dpiを指定する")
 
     parser.add_argument("--crop", action="store_true", help="画像を正方形に加工するか。")
     parser.add_argument("--round", action="store_true", help="icoへ変換時、角丸にトリミングを行ってから処理をするか。")
     parser.add_argument("--round-rate", type=int, default=5, help="角丸にトリミングする際の、サイズに対する半径の比。大きいと半径は小さくなる。2でピッタリな円になる。")
 
-    args: Args = parser.parse_args()        # type: ignore
+    namespace: Args = parser.parse_args(*args, **kwargs)        # type: ignore
 
-    return args
+    return namespace
 """
 CLI本体を定義する。
 """
@@ -265,17 +264,32 @@ def convert(img_input: Path, img_output: Path, preprocessor: Preprocessor, pdf2i
     logger.info(f"successfully converted {img_input} into {img_output}")
 
 
-def resolve_output_file_path(img_input: Path, out: Path) -> Path:
+def resolve_output_file_path(img_input: Path, out: str) -> Path:
     """outの形式に応じて、出力先のパスを返す
 
     Args:
         img_input (Path): 入力画像
-        out (Path): 出力先の情報(ファイルorディレクトリ)
+        out (str): 出力先の情報(ファイルorディレクトリ), ${name}などを含む可能性がある。
 
     Returns:
         Path: 出力画像のパス
     """
-    return out
+    out = out.replace("${stem}", img_input.stem)
+    out = out.replace("${dir}", str(img_input.parent))
+
+    img_output = Path(out)
+
+    if img_output.is_dir():
+        raise ValueError("format of the output name is invalid.")
+
+    return img_output
+
+
+def get_img_inputs_from_user_inputs(inputs: List[str]):
+    """ 入力されたファイルを順にイテレーションする """
+    for pattern in inputs:
+        for img_input in Path.cwd().glob(pattern):
+            yield img_input
 
 
 def main():
@@ -287,10 +301,9 @@ def main():
     preprocessor = Preprocessor(do_crop_center=args.crop, do_round=args.round, round_rate=args.round_rate)
     pdf2image_options = {"dpi": args.dpi}
 
-    for pattern in img_inputs:
-        for img_input in Path.cwd().glob(pattern):
-            img_output = resolve_output_file_path(img_input, out)
-            convert(img_input, img_output, preprocessor, pdf2image_options)
+    for img_input in get_img_inputs_from_user_inputs(img_inputs):
+        img_output = resolve_output_file_path(img_input, out)
+        convert(img_input, img_output, preprocessor, pdf2image_options)
 
 
 if __name__ == '__main__':
