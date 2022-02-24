@@ -19,9 +19,11 @@ pylintとautopep8でlintingと整形。
 
 ```ps1
 # pipenvで開発しています。
-pipenv install
+pipenv install --dev
 # 仮想環境で開発して,,,
 pipenv shell
 # 追加できたらbuildコマンドでdist/main.pyに反映します。またrequirementも更新します。
 pipenv run build
+# test
+pipenv run test
 ```
