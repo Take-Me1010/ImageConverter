@@ -2,7 +2,7 @@
 from pathlib import Path
 import unittest
 
-from dist.main import resolve_output_file_path
+from src.main import resolve_output_file_path
 
 
 class TestResolvePath(unittest.TestCase):
