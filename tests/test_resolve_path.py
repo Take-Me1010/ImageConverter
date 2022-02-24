@@ -1,4 +1,4 @@
-
+# pylint: skip-file
 from pathlib import Path
 import unittest
 
