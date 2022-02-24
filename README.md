@@ -9,7 +9,8 @@
 ```
 ImageConverter
 ├─dist
-│  └─main.py
+│  └─imgconv
+│    └─main.py
 └─poppler
 ```
 
