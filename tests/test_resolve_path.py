@@ -2,7 +2,7 @@
 from pathlib import Path
 import unittest
 
-from src.main import resolve_output_file_path
+from dist.imgconv import resolve_output_file_path
 
 
 class TestResolvePath(unittest.TestCase):

@@ -2,8 +2,7 @@
 import unittest
 from pathlib import Path
 
-from src.main import get_img_inputs_from_user_inputs
-from src.cliparser import parse
+from dist.imgconv import get_img_inputs_from_user_inputs, parse
 
 
 class TestIterateImgInputs(unittest.TestCase):
