@@ -9,6 +9,7 @@ import pdf2image
 
 from cliparser import parse
 from clilogger import Logger
+from iconextractor import IconExtractor, IconExtractorError
 
 logger = Logger("imgconv")
 
@@ -230,6 +231,28 @@ def convert(img_input: Path, img_output: Path, preprocessor: Preprocessor, pdf2i
     logger.info(f"successfully converted {img_input} into {img_output}")
 
 
+def extract_icon(img_input: Path, img_output: Path, num: int = 0):
+    """exeからiconを取り出す
+
+    Args:
+        img_input (Path): 入力ファイル(.exe)
+        img_output (Path): 出力ファイル名(.ico)
+        num (int, optional): 何番目のiconを出力するか. Defaults to 0.
+    """
+    if img_output.suffix != ".ico":
+        logger.error(f"IconExtractor do not support {img_output.suffix} now...")
+        logger.warning(f"failed to extract {img_input} into {img_output}.")
+        return
+
+    try:
+        IconExtractor(str(img_input), logger).export_icon(img_output, num)
+    except IconExtractorError as err:
+        logger.error(f"during extracting {img_input} into {img_output}, encountered an error: {err}")
+        logger.warning("failed to extract.")
+    else:
+        logger.info(f"successfully extract {img_input} into {img_output}")
+
+
 def resolve_output_file_path(img_input: Path, out: str) -> Path:
     """outの形式に応じて、出力先のパスを返す
 
@@ -254,8 +277,13 @@ def resolve_output_file_path(img_input: Path, out: str) -> Path:
 def get_img_inputs_from_user_inputs(inputs: List[str]):
     """ 入力されたファイルを順にイテレーションする """
     for pattern in inputs:
-        for img_input in Path.cwd().glob(pattern):
-            yield img_input
+        logger.debug(pattern)
+        if Path(pattern).is_absolute():
+            yield Path(pattern)
+
+        else:
+            for img_input in Path.cwd().glob(pattern):
+                yield img_input
 
 
 def main():
@@ -270,7 +298,11 @@ def main():
 
     for img_input in get_img_inputs_from_user_inputs(img_inputs):
         img_output = resolve_output_file_path(img_input, out)
-        convert(img_input, img_output, preprocessor, pdf2image_options)
+        if img_input.suffix == ".exe":
+            extract_icon(img_input, img_output)
+
+        else:
+            convert(img_input, img_output, preprocessor, pdf2image_options)
 
 
 if __name__ == '__main__':
