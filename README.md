@@ -7,16 +7,15 @@
 必須なものは以下。
 
 ```
-ImageConverter
-├─dist
-│  └─imgconv
-│    └─main.py
+dist
+├─imgconv
+│  └─main.py
 └─poppler
 ```
 
 - Python 3.9
   - 多分3.6とかでも動く。
-- PDFを画像に変換するする場合には、popplerが必要です。popplerのフォルダをdistと同じ階層に置いてください。
+- PDFを画像に変換するする場合には、popplerが必要です。popplerのフォルダをdistに置いてください。
   - [Windows版](https://github.com/oschwartz10612/poppler-windows)など。
 
 
