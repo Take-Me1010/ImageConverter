@@ -5,10 +5,10 @@ name = "pypi"
 
 [packages]
 pdf2image = "*"
-imgconv = {editable = true, path = "."}
 pefile = "*"
 
 [dev-packages]
+imgconv = {editable = true, path = "."}
 autopep8 = "*"
 
 [scripts]
