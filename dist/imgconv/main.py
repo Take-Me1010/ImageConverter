@@ -1,11 +1,11 @@
+import pefile
 import pdf2image
 import argparse
-import logging
-import pefile
-import struct
 import io
-from typing import Optional, Any, Dict, NamedTuple, Union, List
-from PIL import ImageDraw, UnidentifiedImageError, Image, ImageFilter
+import logging
+import struct
+from PIL import ImageFilter, UnidentifiedImageError, ImageDraw, Image
+from typing import Any, NamedTuple, Union, List, Optional, Dict
 from pathlib import Path
 
 
@@ -513,6 +513,7 @@ def convert(img_input: Path, img_output: Path, preprocessor: Preprocessor, pdf2i
         ".ico",
         ".im",
         ".jpeg",
+        ".jfif",
         ".jpg",
         ".msp",
         ".pcx",

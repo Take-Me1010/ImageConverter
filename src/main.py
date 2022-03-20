@@ -210,6 +210,7 @@ def convert(img_input: Path, img_output: Path, preprocessor: Preprocessor, pdf2i
         ".ico",
         ".im",
         ".jpeg",
+        ".jfif",
         ".jpg",
         ".msp",
         ".pcx",
