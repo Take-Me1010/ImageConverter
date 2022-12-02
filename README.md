@@ -25,7 +25,7 @@ dist
 
 ## 使い方
 
-`pip install https://github.com/Take-Me1010/ImageConverter.git`とすれば、簡単に導入できます。成功すると、以下のようにヘルプが表示されると思います。
+`pip install git+https://github.com/Take-Me1010/ImageConverter`とすれば、簡単に導入できます。成功すると、以下のようにヘルプが表示されると思います。
 
 ```
 > imgconv -h
