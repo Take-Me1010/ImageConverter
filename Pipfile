@@ -12,7 +12,9 @@ imgconv = {editable = true, path = "."}
 autopep8 = "*"
 
 [scripts]
-build = "python -u builder.py ; python -m pip freeze | Out-File -Encoding UTF8 requirements.txt"
+build = "python -u builder.py"
+"update:pwsh" = "pwsh -c \"pipenv lock -r | Out-File -Encoding utf8NoBOM requirements.txt\""
+"update:bash" = "bash -c \"pipenv lock -r | Out-File -Encoding utf8NoBOM requirements.txt\""
 test = "python -m unittest discover tests"
 
 [requires]

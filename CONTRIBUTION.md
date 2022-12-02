@@ -22,8 +22,10 @@ pylintとautopep8でlintingと整形。
 pipenv install --dev
 # 仮想環境で開発して,,,
 pipenv shell
-# 追加できたらbuildコマンドでdist/main.pyに反映します。またrequirementも更新します。
+# 追加できたらbuildコマンドでdist/main.pyに反映します。
 pipenv run build
+# もしライブラリのバージョンを上げたりしていたら下記コマンドで反映します
+pipenv run "update:pwsh"        # or update:bash, if you use bash.
 # test
 pipenv run test
 ```
